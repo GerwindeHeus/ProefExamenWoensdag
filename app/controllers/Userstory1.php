@@ -23,7 +23,7 @@ class Userstory1 extends Controller
                          <td>$value->AantalVolwassenen</td>
                          <td>$value->AantalKinderen</td>
                          <td>$value->Nummer</td>
-                         <td><a href='" . URLROOT . "userstory1/update/'>update</a></td>
+                         <td><a href='" . URLROOT . "userstory1/update/$value->Id'>update</a></td>
                       </tr>";
         }
 
@@ -35,21 +35,27 @@ class Userstory1 extends Controller
     }
 
     public function update($id = NULL){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $this->userstory1Model->updateBaan($_POST);
+             $result = $this->userstory1Model->updateBaan($_POST);
 
-            header("Location: " . URLROOT . "userstory1/index");
-            
-        }
-            $row = $this->userstory1Model->getSingleBaan($id);
-            $data = [
-                'title' => 'Update een baan',
-                'row' => $row
-            ];
-            $this->view("persoon/update", $data);
-        
+             if ($result) {
+                echo "Het toevoegen is niet gelukt";
+                header("Refresh:3; URL=" . URLROOT . "userstory1/index");
+            } else {
+                echo "het toevoegen is gelukt";
+                header("Refresh:3; URL=" . URLROOT . "userstory1/index");
+            }
+         }else {
+             $row = $this->userstory1Model->getSingleBaan($id);
+             $data = [
+                 'title' => 'Update een baan',
+                 'row' => $row
+             ];
+            $this->view("userstory1/update", $data);
+            }
+             
     }
 }

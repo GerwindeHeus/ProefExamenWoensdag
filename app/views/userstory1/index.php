@@ -16,6 +16,3 @@
     </tbody>
 </table>
 <br>
-<a href="<?= URLROOT; ?>persoon/addPersoon">
-    <input type="button" value="Bestelling toevoegen">
-</a>
